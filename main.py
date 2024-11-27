@@ -1,5 +1,4 @@
-from fastapi import FastAPI
-
+from fastapi import FastAPI, HTTPException
 # create a new app
 app = FastAPI()
 
@@ -15,6 +14,7 @@ def root():
 def create_dog(dog: str): #query parameter
     dogs.append(dog)
     return dogs
+# currently not a json payload
 
 @app.get('/dogs')
 def get_dog():
@@ -23,6 +23,9 @@ def get_dog():
 
 @app.get('/dogs/{dog_id}') # /dogs/1 or /dogs/6 etc
 def get_dog(dog_id: int) -> str:
-    dog = dogs[dog_id]
-    return dog
+    if dog_id < len(dogs):
+        return dogs[dog_id]
+    else:
+        raise HTTPException(status_code=404,
+                            detail=f"Dog {dog_id} not found")
 # working
