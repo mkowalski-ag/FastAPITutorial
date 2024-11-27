@@ -15,3 +15,14 @@ def root():
 def create_dog(dog: str): #query parameter
     dogs.append(dog)
     return dogs
+
+@app.get('/dogs')
+def get_dog():
+    return dogs
+# working
+
+@app.get('/dogs/{dog_id}') # /dogs/1 or /dogs/6 etc
+def get_dog(dog_id: int) -> str:
+    dog = dogs[dog_id]
+    return dog
+# working
